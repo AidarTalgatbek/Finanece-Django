@@ -11,7 +11,7 @@ class Financial_Plan(models.Model):
     title = models.CharField('Название план', max_length=100)
     start_period = models.DateField('Начало период')
     period_end = models.DateField('Конец период')
-    type_plan = models.IntegerChoices(PLANS)
+    type_plan = models.CharField('Тип', max_length=16, choices=PLANS)
 
 
 class Budjet_Items(models.Model):
@@ -20,15 +20,15 @@ class Budjet_Items(models.Model):
         'Расход': 0
     }
     "Статьи бюджета"
-    plan = models.ForeignKey(Financial_Plan, verbose_name='План')
+    plan = models.ForeignKey(Financial_Plan, on_delete=models.CASCADE, verbose_name='План')
     title = models.CharField('Название', max_length=100)
-    type_ = models.IntegerChoices(TYPE)
+    types = models.CharField('Тип', max_length=16, choices=TYPE)
     summa = models.IntegerField('Сумма')
 
 
 class Financial_Data(models.Model):
     "Финансовые данные"
-    plan = models.ForeignKey(Financial_Plan, verbose_name='План')
+    plan = models.ForeignKey(Financial_Plan, verbose_name='План', on_delete=models.CASCADE)
 
 
 class Forecast(models.Model):
