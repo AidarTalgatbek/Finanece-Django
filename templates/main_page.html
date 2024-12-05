@@ -6,10 +6,12 @@
     <title>Office</title>
     <style>
         * {
+            margin: 0;
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         }
 
         #menu {
+            border-bottom: 1px rgba(0, 0, 0, 0.432) solid;
             padding: 10px 20px;
             display: flex;
 
@@ -27,9 +29,15 @@
         }
 
         .main-block {
+            margin: 10px 0;
+            display: flex;
             .menu {
                 h4 {
                     padding: 10px 20px;
+                }
+                a {
+                    margin: 30px 20px;
+                    
                 }
             }
         }
@@ -46,7 +54,12 @@
     <div class="main-block">
         <div class="menu">
             <h4>Menu</h4>
-
+            <a href="{% url 'app:create_plan' %}">Создать план</a><br>
+        </div>
+        <div>
+        {% block content %}
+        <h1>Welcome</h1>
+        {% endblock %}
         </div>
     </div>
 </body>

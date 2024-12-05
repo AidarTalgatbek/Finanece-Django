@@ -6,12 +6,13 @@ def main_page(request):
     return render(request, 'main_page.html')
 
 
+
 def create_financial_plan(request):
     if request.method == "POST":
         form = FinancialPlanForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('plan_list')  # перенаправление на список планов
+            return redirect('main_page')  # перенаправление на список планов
     else:
         form = FinancialPlanForm()
     return render(request, 'finance/create_plan.html', {'form': form})
@@ -22,7 +23,7 @@ def add_budget_item(request):
         form = BudjetItemForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('plan_list')  # перенаправление на список планов
+            return redirect('main_page')  # перенаправление на список планов
     else:
         form = BudjetItemForm()
     return render(request, 'finance/add_budget_item.html', {'form': form})
