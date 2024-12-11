@@ -1,0 +1,48 @@
+{% extends 'main_page.html' %}
+
+{% block plans %}
+<h1>Финансовый план: {{ plan.title }}</h1>
+<p><strong>Тип:</strong> {{ plan.get_plan_type_display }}</p>
+<p><strong>Начало периода:</strong> {{ plan.start_period }}</p>
+<p><strong>Конец периода:</strong> {{ plan.period_end }}</p>
+
+<h2>Финансовые данные</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Период</th>
+            <th>Реальные доходы/расходы</th>
+            <th>Отклонение</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for data in financial_data %}
+        <tr>
+            <td>{{ data.period }}</td>
+            <td>{{ data.actual_income_expence }}</td>
+            <td>{{ data.deviation }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3">Данных нет.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>Прогноз на следующие 12 периодов</h2>
+{% if forecast %}
+    <ul>
+        {% for value in forecast %}
+        <li>{{ forloop.counter }}: {{ value|floatformat:2 }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Недостаточно данных для прогноза.</p>
+{% endif %}
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" name="export_csv">Экспортировать в CSV</button>
+</form>
+{% endblock %}

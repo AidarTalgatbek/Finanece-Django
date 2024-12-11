@@ -1,7 +1,18 @@
 from django import forms
 from .models import FinancialPlan, BudjetItem, Financial_Data
 
+
 class FinancialPlanForm(forms.ModelForm):
+    start_period = forms.DateField(
+        label='Начало периода',
+        widget=forms.DateInput(format="%Y-%m-%d", attrs={'type': 'date'}),
+        input_formats=['%Y-%m-%d']
+    )
+    period_end = forms.DateField(
+        label='Конец периода',
+        widget=forms.DateInput(format="%Y-%m-%d", attrs={'type': 'date'}),
+        input_formats=['%Y-%m-%d']
+    )
     class Meta:
         model = FinancialPlan
         fields = ['title', 'start_period', 'period_end', 'plan_type']

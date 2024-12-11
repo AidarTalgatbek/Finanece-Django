@@ -5,9 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Office</title>
     <style>
-        * {
+        * { 
+            transition: 0.3s;
             margin: 0;
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            input {
+                margin: 10px 30px;
+                padding: 5px 10px;
+                border-radius: 10px;
+                border: solid rgba(0, 0, 0, 0.39) 1px;
+                width: 500px;
+            }
         }
 
         #menu {
@@ -17,6 +25,7 @@
 
             h2 {
                 margin-right: 100px;
+                text-align: center;
             }
 
             input {
@@ -40,25 +49,105 @@
                     
                 }
             }
+
+            .content {
+
+               .plans {
+                display: flex;
+                flex-wrap: wrap;
+
+                .card {
+                    margin: 10px 20px;
+                    width: 150px;
+                    height: 150px;
+                    border: 1px black solid;
+                    border-radius: 15px;
+
+                    h1 {
+                        font-size: 25px;
+                    }
+                }
+
+                .plus {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    text-align:center;
+                    position: relative;
+                    
+                    h1 {
+                        font-size: 25px;
+                    }
+
+                    &:hover {
+                        background-color: black;
+                        a {
+                            color: white;
+                        }
+                    }
+                    
+                    a {
+                        font-size: 70px;
+                        text-decoration: none;
+                        font-weight: bold;
+                        color: black;
+
+                        &:hover {
+                            color: rgb(25, 25, 194);
+                            text-shadow: 0 0 5px rgb(25, 25, 194);
+                        }
+                    }
+                }
+               }
+            }
+        }
+
+        .input-button {
+            border: solid 1px black;
+            width: 150px;
+        }
+
+        .pagiantor {
+            padding: 15px 20px;
+            border-radius: 20px;
+            display: flex;
+            position: fixed;
+            top: 500px;
+            left: 40%;
+
+            .main-num {
+                margin: 0 10px;
+            }
+
+            .num {
+                margin: 0 5px;
+            }
+        }
+
+        button {
+            border-radius: 15px;
+            padding: 7px 12px;
+            margin: 20px 0 0 20px;
+            background-color: rgb(128, 128, 128);
+            border-style: none;
         }
     </style>
 </head>
 <body>
     <div id="menu">
         <h2>Finance</h2>
-        <form action="searc" method="get">
-            <input type="search">
-        </form>
+        {% block search %}
+        {% endblock %}
     </div>
 
     <div class="main-block">
         <div class="menu">
             <h4>Menu</h4>
-            <a href="{% url 'app:create_plan' %}">Создать план</a><br>
+            <a href="{% url 'app:main_page' %}">Главный</a> <br>
+            <a href="{% url 'app:plan' %}">Планы</a> <br>
         </div>
-        <div>
-        {% block content %}
-        <h1>Welcome</h1>
+        <div class="content">
+        {% block plans %}
         {% endblock %}
         </div>
     </div>

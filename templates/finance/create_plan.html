@@ -1,5 +1,10 @@
 {% extends 'main_page.html' %}
 
-{% block content %}
+{% block plans %}
 <h1>Create plan</h1>
+<form method='post'>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Создать план</button>
+</form>
 {% endblock %}

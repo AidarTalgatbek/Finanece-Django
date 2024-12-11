@@ -1,5 +1,5 @@
 from django.db import models
-
+from .utils import calculate_budget_sum
 
 class FinancialPlan(models.Model):
     "Финансовые планы"
@@ -40,6 +40,13 @@ class Financial_Data(models.Model):
     actual_income_expence = models.DecimalField('Реальные доходы/расходы', max_digits=15, decimal_places=2)
     deviation = models.DecimalField('Отклонение от плана', max_digits=15, decimal_places=2)
 
+    def calculate_deviation(plan_id):
+        data = Financial_Data.objects.filter(plan_id=plan_id)
+        for item in data:
+            item.deviation = item.actual_income_expence - calculate_budget_sum(plan_id)['total_income']
+            item.save()
+
+    
 class Forecast(models.Model):
     "Прогнозы"
     FORECAST_METHODS = {

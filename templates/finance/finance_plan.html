@@ -1,1 +1,33 @@
-{%  %}
+{% extends 'main_page.html' %}
+
+{% block search %}
+<form method="get">
+    <input type="text" name="q" placeholder="Поиск планов" value="{{ request.GET.q }}">
+</form>
+{% endblock %}
+
+{% block plans %}
+        <div class="plans">
+            <div class="card plus">
+                <a href="{% url 'app:create_plan' %}" title="Добавить план">+</a>
+            </div>
+        {% for plan in plans %}
+            <div class="card">
+                <h1>{{ plan.title }}</h1>
+            </div>
+        {% endfor %}
+        </div>
+
+        <div class="pagiantor">
+            {% if is_paginated %}
+            <span>Другие планы:</span>
+            {% for page_num in paginator.page_range %}
+                {% if page_num == page_obj.number %}
+                <p class="main-num">{{ page_num }}</p>
+                {% else %}
+                <a class="num" href="?page={{ page_num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ page_num }}</a>
+                {% endif %}
+            {% endfor %}
+            {% endif %}
+        </div>
+{% endblock %}
