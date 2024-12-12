@@ -1,17 +1,21 @@
 from django.db import models
+from django.urls import reverse
 from .utils import calculate_budget_sum
 
 class FinancialPlan(models.Model):
     "Финансовые планы"
     PLANS = {
-        'perspective': 'Перспективный',
-        'current': 'Текущий',
-        'operational': 'Оперативный'
+        'Перспективный': 'Перспективный',
+        'Текущий': 'Текущий',
+        'Оперативный': 'Оперативный'
     }
     title = models.CharField('Название план', max_length=100)
     start_period = models.DateField('Начало период')
     period_end = models.DateField('Конец период')
     plan_type = models.CharField('Тип', max_length=20, choices=PLANS)
+    
+    def get_absolute_url(self):
+        return reverse("app:financial_plan_detail",  args=[str(self.id)])
 
     def __str__(self):
         return self.title
@@ -45,6 +49,8 @@ class Financial_Data(models.Model):
         for item in data:
             item.deviation = item.actual_income_expence - calculate_budget_sum(plan_id)['total_income']
             item.save()
+    
+    
 
     
 class Forecast(models.Model):

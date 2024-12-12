@@ -20,9 +20,14 @@ class FinancialPlanForm(forms.ModelForm):
 class BudjetItemForm(forms.ModelForm):
     class Meta:
         model = BudjetItem
-        fields = ['plan', 'title', 'types', 'amount']
+        fields = ['title', 'types', 'amount']  # Указываем только нужные поля
 
-class Financial_DataForm(forms.ModelForm):
+class FinancialDataForm(forms.ModelForm):
+    period = forms.DateField(
+        label='Периода',
+        widget=forms.DateInput(format="%Y-%m-%d", attrs={'type': 'date'}),
+        input_formats=['%Y-%m-%d']
+    )
     class Meta:
         model = Financial_Data
-        fields = ['plan', 'period', 'actual_income_expence', 'deviation']
+        fields = ['period', 'actual_income_expence', 'deviation']

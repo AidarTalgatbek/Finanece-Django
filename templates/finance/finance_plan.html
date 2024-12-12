@@ -13,7 +13,8 @@
             </div>
         {% for plan in plans %}
             <div class="card">
-                <h1>{{ plan.title }}</h1>
+                <h1><a href="{{ plan.get_absolute_url }}">{{ plan.title }}</a></h1>
+                <p>Тип: {{ plan.plan_type }}</p>
             </div>
         {% endfor %}
         </div>
