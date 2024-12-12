@@ -65,7 +65,7 @@ src/testTestingRootWkspc/coverageWorkspace/.coverage
 
 # Local History for Visual Studio Code
 .history/
-.__pycache__/
+**/__pycache__/**
 # Built Visual Studio Code Extensions
 *.vsix
-.migrations/
+**/migrations/**
