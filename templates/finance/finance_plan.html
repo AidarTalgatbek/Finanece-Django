@@ -2,11 +2,12 @@
 
 {% block search %}
 <form method="get">
-    <input type="text" name="q" placeholder="Поиск планов" value="{{ request.GET.q }}">
+    <input type="search" name="q" placeholder="Поиск планов" value="{{ request.GET.q }}">
 </form>
 {% endblock %}
 
 {% block plans %}
+    <div class="block">
         <div class="plans">
             <div class="card plus">
                 <a href="{% url 'app:create_plan' %}" title="Добавить план">+</a>
@@ -15,6 +16,7 @@
             <div class="card">
                 <h1><a href="{{ plan.get_absolute_url }}">{{ plan.title }}</a></h1>
                 <p>Тип: {{ plan.plan_type }}</p>
+                <p>Период: <br> {{ plan.start_period }}<br>{{ plan.period_end}}</p>
             </div>
         {% endfor %}
         </div>
@@ -31,4 +33,5 @@
             {% endfor %}
             {% endif %}
         </div>
+    </div>
 {% endblock %}

@@ -1,10 +1,12 @@
 {% extends 'main_page.html' %}
 
 {% block plans %}
+<div>
 <h1>Create plan</h1>
 <form method='post'>
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Создать план</button>
 </form>
+</div>
 {% endblock %}

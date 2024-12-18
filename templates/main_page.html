@@ -16,6 +16,9 @@
                 border: solid rgba(0, 0, 0, 0.39) 1px;
                 width: 500px;
             }
+            td {
+                padding: 5px 10px;
+            }
         }
 
         #menu {
@@ -38,19 +41,28 @@
         }
 
         .main-block {
-            margin: 10px 0;
+            height: max-content;
             display: flex;
             .menu {
+                border-right: solid 1px rgba(0, 0, 0, 0.432);
                 h4 {
                     padding: 10px 20px;
                 }
                 a {
                     margin: 30px 20px;
-                    
+                    text-decoration: none;
+                    color: black;
+
+                    &:hover {
+                        color: firebrick;
+                    }
                 }
             }
 
             .content {
+                margin: 30px 30px;
+                display: flex;
+
 
                .plans {
                 display: flex;
@@ -58,8 +70,8 @@
 
                 .card {
                     margin: 10px 20px;
-                    width: 150px;
-                    height: 150px;
+                    width: 200px;
+                    height: 200px;
                     border: 1px black solid;
                     border-radius: 15px;
 
@@ -116,7 +128,6 @@
             padding: 15px 20px;
             border-radius: 20px;
             display: flex;
-            position: fixed;
             top: 500px;
             left: 40%;
 
@@ -136,6 +147,81 @@
             background-color: rgb(128, 128, 128);
             border-style: none;
         }
+
+        .table {
+            margin: 10px 0;
+            border: 1px solid black;
+            border-radius: 15px;
+            padding: 5px 10px;
+        }
+
+        dialog {
+            position: fixed; /* Фиксированное положение относительно экрана */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* Центрирование по горизонтали и вертикали */
+            padding: 20px;
+            width: 700px; /* Ширина окна */
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25); /* Тень для визуальной глубины */
+            background-color: white; /* Фон окна */
+            animation: fadeIn 0.3s ease-in-out; /* Анимация появления */
+            z-index: 1000; /* Поверх всего остального */
+        }
+
+        .dialog-form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dialog-actions {
+            margin-top: 15px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        dialog::backdrop {
+            background-color: rgba(0, 0, 0, 0.5); /* Затемнение фона */
+            backdrop-filter: blur(2px); /* Размытие заднего плана */
+        }
+        @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translate(-50%, -60%); /* Начальная позиция чуть выше */
+        }
+        to {
+            opacity: 1;
+            transform: translate(-50%, -50%);
+        }
+    }
+
+    /* Кнопки */
+    button {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    button[type="submit"] {
+        background-color: #4caf50;
+        color: white;
+
+        &:hover {
+            background-color: #4caf4fc0;
+        }
+    }
+
+    button[type="button"] {
+        background-color: #f44336;
+        color: white;
+
+        &:hover {
+            background-color: #f44336c0;
+        }
+    }
     </style>
 </head>
 <body>

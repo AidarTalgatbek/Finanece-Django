@@ -1,26 +1,16 @@
 {% extends 'main_page.html' %}
 
 {% block plans %}
+<div style="
+width: 800px;
+">
 <h1>Финансовый план: {{ plan.title }}</h1>
 <p><strong>Тип:</strong> {{ plan.get_plan_type_display }}</p>
 <p><strong>Начало периода:</strong> {{ plan.start_period }}</p>
 <p><strong>Конец периода:</strong> {{ plan.period_end }}</p>
 
 <h2>Финансовые данные</h2>
-<h2>Добавить статью бюджета</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ budjet_item_form.as_p }}
-    <button type="submit" name="add_budjet_item">Добавить статью</button>
-</form>
-
-<h2>Добавить финансовые данные</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ financial_data_form.as_p }}
-    <button type="submit" name="add_financial_data">Добавить данные</button>
-</form>
-<table>
+<table class="table">
     <thead>
         <tr>
             <th>Период</th>
@@ -44,15 +34,108 @@
 </table>
 
 <h2>Прогноз на следующие 12 периодов</h2>
-{% if forecast %}
-    <ul>
-        {% for value in forecast %}
-        <li>{{ forloop.counter }}: {{ value|floatformat:2 }}</li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>Недостаточно данных для прогноза.</p>
-{% endif %}
+<div>
+    {% if graph_data %}
+        <canvas id="forecastChart"></canvas>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            const ctx = document.getElementById('forecastChart').getContext('2d');
+            const graphData = {{ graph_data|safe }};
+            const forecastChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: graphData.labels,
+                    datasets: [{
+                        label: 'Финансовые данные и прогноз',
+                        data: graphData.values,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderWidth: 2,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: true }
+                    },
+                    scales: {
+                        x: { title: { display: true, text: 'Периоды' } },
+                        y: { title: { display: true, text: 'Сумма' } }
+                    }
+                }
+            });
+        </script>
+    {% else %}
+        <p>Недостаточно данных для построения графика.</p>
+    {% endif %}
+</div>
 
 <p><a href="?export=1">Экспортировать данные в CSV</a></p>
+<button id="openBudjetItemForm">Добавить статью бюджета</button>
+<button id="openFinancialDataForm">Добавить финансовые данные</button>
+
+<dialog id="budjetItemDialog">
+    <form method="post" class="dialog-form">
+        {% csrf_token %}
+        <h3>Добавить статью бюджета</h3>
+        {{ budjet_item_form.as_p }}
+        <div class="dialog-actions">
+            <button type="submit" name="budjet_item_submit">Сохранить</button>
+            <button type="button" id="closeBudjetItemDialog">Отмена</button>
+        </div>
+    </form>
+</dialog>
+
+<!-- Диалоговое окно для FinancialDataForm -->
+<dialog id="financialDataDialog">
+    <form method="post" class="dialog-form">
+        {% csrf_token %}
+        <h3>Добавить финансовые данные</h3>
+        {{ financial_data_form.as_p }}
+        <div class="dialog-actions">
+            <button type="submit" name="financial_data_submit">Сохранить</button>
+            <button type="button" id="closeFinancialDataDialog">Отмена</button>
+        </div>
+    </form>
+</dialog>
+</div>
+
+<script>
+    // Открытие и закрытие диалогового окна для BudjetItemForm
+    const budjetItemDialog = document.getElementById('budjetItemDialog');
+    document.getElementById('openBudjetItemForm').addEventListener('click', () => {
+        budjetItemDialog.showModal();
+    });
+    document.getElementById('closeBudjetItemDialog').addEventListener('click', () => {
+        budjetItemDialog.close();
+    });
+
+    // Открытие и закрытие диалогового окна для FinancialDataForm
+    const financialDataDialog = document.getElementById('financialDataDialog');
+    document.getElementById('openFinancialDataForm').addEventListener('click', () => {
+        financialDataDialog.showModal();
+    });
+    document.getElementById('closeFinancialDataDialog').addEventListener('click', () => {
+        financialDataDialog.close();
+    });
+</script>
+{% endblock %}
+
+{% block twice %}
+<div>
+<h2>Добавить статью бюджета</h2>
+<form method="post" style="display: flex;">
+    {% csrf_token %}
+    <p>Title</p><input type="text" name="" value="{{ budjet_item_form.title }}"> <br>
+    <button type="submit" name="add_budjet_item">Добавить статью</button>
+</form>
+
+<h2>Добавить финансовые данные</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ financial_data_form.as_p }}
+    <button type="submit" name="add_financial_data">Добавить данные</button>
+</form>
+</div>
 {% endblock %}
