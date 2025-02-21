@@ -2,6 +2,11 @@
 
 The Finance Django project is designed for personal finance management, tracking income and expenses. It includes key features for managing financial records as well as an admin panel for data management.
 
+# Requirements
+
+* Python 3.8+
+* Django 4.2, 5.0, 5.1, 5.2
+
 ## Installation
 
 1. Clone the repository:
